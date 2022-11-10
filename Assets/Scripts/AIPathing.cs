@@ -11,11 +11,24 @@ public class AIPathing : MonoBehaviour
     public float speed = 3.0f;
     public float obstacleDetectionRange = 5.0f;
 
+    public const float baseSpeed = 3.0f;
+
     private bool isAlive;
 
     void Start() {
         isAlive = true;
 
+    }
+
+    void OnEnable() {
+    Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+    void OnDisable() {
+    Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnSpeedChanged(float value) {
+    speed = baseSpeed * value;
     }
 
     void Update()
